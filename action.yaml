@@ -187,7 +187,7 @@ runs:
         if [[ $DEPLOY_TYPE == "git" ]]; then
           create_application "git" "$APP_NAME" "$TARGET_REVISION" "$REPO_URL" "$PROJECT_NAME" "$DEST_NAMESPACE" "$REPO_PATH"
         elif [[ $DEPLOY_TYPE == "helm" ]]; then
-          create_application "helm" "$APP_NAME" "$TARGET_REVISION" "$REPO_URL" "$PROJECT_NAME" "$DEST_NAMESPACE-app" "$HELM_CHART"
+          create_application "helm" "$APP_NAME" "$TARGET_REVISION" "$REPO_URL" "$PROJECT_NAME" "$DEST_NAMESPACE" "$HELM_CHART"
         else
           echo "unknown type"
         fi
