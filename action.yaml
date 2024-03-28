@@ -87,13 +87,13 @@ runs:
         echo "HELM_CHART          - $HELM_CHART"
 
         create_application() {
-          dtype=$1 # SOURCE_TYPE
-          aname=$2 # APP_NAME
-          trev=$3 # TARGET_REVISION
-          rurl=$4 # REPO_URL
-          pname=$5 #PROJECT_NAME
-          destns=$6 # DEST_NAMESPACE
-          spath=$7 # path for git, chart for helm 'REPO_PATH' or 'HELM_CHART'
+          dtype=$1
+          aname=$2
+          trev=$3
+          rurl=$4
+          pname=$5
+          destns=$6
+          spath=$7
 
 
 
