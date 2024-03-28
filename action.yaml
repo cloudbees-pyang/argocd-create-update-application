@@ -58,11 +58,11 @@ runs:
       run: |
         #!/bin/bash
         
-        ARGOCD_SERVER="${{ inputs.serverurl }}" # note we follow symlinks
+        ARGOCD_SERVER="${{ inputs.serverurl }}" 
         USERNAME="${{ inputs.user }}"
         PASSWORD="${{ inputs.credential }}"
-        CREATE_PROJECT="false" # we can check if project exists first
-        SOURCE_TYPE="git" # can be git or helm
+        CREATE_PROJECT="false"
+        SOURCE_TYPE="git"
         PROJECT_NAME="${{ inputs.projectame }}"
         PROJECT_DESCRIPTION="This is an example ArgoCD project."
         APP_NAME="${{ inputs.applicationname }}"
