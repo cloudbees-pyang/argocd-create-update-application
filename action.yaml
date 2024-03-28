@@ -72,19 +72,7 @@ runs:
         REPO_PATH="${{ inputs.repopath }}"
         HELM_CHART="${{ inputs.chartname }}"
 
-        echo "ARGOCD_SERVER       - $ARGOCD_SERVER"
-        echo "USERNAME            - $USERNAME"
-        echo "PASSWORD            - $PASSWORD"
-        echo "CREATE_PROJECT      - $CREATE_PROJECT"
-        echo "SOURCE_TYPE         - $SOURCE_TYPE"
-        echo "PROJECT_NAME        - $PROJECT_NAME"
-        echo "PROJECT_DESCRIPTION - $PROJECT_DESCRIPTION"
-        echo "APP_NAME            - $APP_NAME"
-        echo "REPO_URL            - $REPO_URL"
-        echo "TARGET_REVISION     - $TARGET_REVISION"
-        echo "DEST_NAMESPACE      - $DEST_NAMESPACE"
-        echo "REPO_PATH           - $REPO_PATH"
-        echo "HELM_CHART          - $HELM_CHART"
+        
 
         create_application() {
           dtype=$1
