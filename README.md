@@ -75,19 +75,6 @@
 
 |===
 
-== Outputs
-
-[cols="2a,1a,3a",options="header"]
-.Output details
-|===
-
-| Output name
-| Data type
-| Description
-
-
-
-|===
 
 
 == Usage example
