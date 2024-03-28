@@ -71,6 +71,7 @@ runs:
         DEST_NAMESPACE="${{ inputs.destnamespace }}"
         REPO_PATH="${{ inputs.repopath }}"
         HELM_CHART="${{ inputs.chartname }}"
+        DEPLOY_TYPE="${{ inputs.deploytype }}"
 
         echo "ARGOCD_SERVER       - $ARGOCD_SERVER"
         echo "USERNAME            - $USERNAME"
@@ -183,9 +184,9 @@ runs:
         # spath=$6 # path for git, chart for helm
 
 
-        if [[ $dtype == "git" ]]; then
+        if [[ $DEPLOY_TYPE == "git" ]]; then
           create_application "git" "$APP_NAME" "$TARGET_REVISION" "$REPO_URL" "$PROJECT_NAME" "$DEST_NAMESPACE" "$REPO_PATH"
-        elif [[ $dtype == "helm" ]]; then
+        elif [[ $DEPLOY_TYPE == "helm" ]]; then
           create_application "helm" "$APP_NAME" "$TARGET_REVISION" "$REPO_URL" "$PROJECT_NAME" "$DEST_NAMESPACE-app" "$HELM_CHART"
         else
           echo "unknown type"
