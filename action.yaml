@@ -63,7 +63,7 @@ runs:
         PASSWORD="${{ inputs.credential }}"
         CREATE_PROJECT="false"
         SOURCE_TYPE="git"
-        PROJECT_NAME="${{ inputs.projectame }}"
+        PROJECT_NAME="${{ inputs.projectname }}"
         PROJECT_DESCRIPTION="This is an example ArgoCD project."
         APP_NAME="${{ inputs.applicationname }}"
         REPO_URL="${{ inputs.repourl }}"
