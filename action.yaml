@@ -30,7 +30,7 @@ inputs:
     required: true
   repopath:
     description: path within the Git repository git only
-    required: false
+    required: true
   destnamespace:
     description: destination namespace
     required: true
@@ -58,11 +58,11 @@ runs:
       run: |
         #!/bin/bash
         
-        ARGOCD_SERVER="${{ inputs.serverurl }}" 
+        ARGOCD_SERVER="${{ inputs.serverurl }}" # note we follow symlinks
         USERNAME="${{ inputs.user }}"
         PASSWORD="${{ inputs.credential }}"
-        CREATE_PROJECT="false"
-        SOURCE_TYPE="git"
+        CREATE_PROJECT="false" # we can check if project exists first
+        SOURCE_TYPE="git" # can be git or helm
         PROJECT_NAME="${{ inputs.projectname }}"
         PROJECT_DESCRIPTION="This is an example ArgoCD project."
         APP_NAME="${{ inputs.applicationname }}"
@@ -72,6 +72,123 @@ runs:
         REPO_PATH="${{ inputs.repopath }}"
         HELM_CHART="${{ inputs.chartname }}"
 
-        
+        echo "ARGOCD_SERVER       - $ARGOCD_SERVER"
+        echo "USERNAME            - $USERNAME"
+        echo "PASSWORD            - $PASSWORD"
+        echo "CREATE_PROJECT      - $CREATE_PROJECT"
+        echo "SOURCE_TYPE         - $SOURCE_TYPE"
+        echo "PROJECT_NAME        - $PROJECT_NAME"
+        echo "PROJECT_DESCRIPTION - $PROJECT_DESCRIPTION"
+        echo "APP_NAME            - $APP_NAME"
+        echo "REPO_URL            - $REPO_URL"
+        echo "TARGET_REVISION     - $TARGET_REVISION"
+        echo "DEST_NAMESPACE      - $DEST_NAMESPACE"
+        echo "REPO_PATH           - $REPO_PATH"
+        echo "HELM_CHART          - $HELM_CHART"
+
+        create_application() {
+          dtype=$1 # SOURCE_TYPE
+          aname=$2 # APP_NAME
+          trev=$3 # TARGET_REVISION
+          rurl=$4 # REPO_URL
+          pname=$5 #PROJECT_NAME
+          destns=$6 # DEST_NAMESPACE
+          spath=$7 # path for git, chart for helm 'REPO_PATH' or 'HELM_CHART'
+
+
+
+        #for GIT
+        PAYLOADGIT=$(cat <<EOF
+        {
+          "metadata": {
+            "name": "$aname"
+          
+          },
+          "spec": {
+            "source": {
+              "repoURL": "$rurl",
+              "path": "$spath",
+              "targetRevision": "$trev"
+            },
+            "destination": {
+              "server": "https://kubernetes.default.svc",
+              "namespace": "$destns"
+            },
+            "project": "$pname",
+            "syncPolicy": {
+              "automated": {
+                "prune": true,
+                "selfHeal": true
+              }
+            }
+          }
+        }
+        EOF
+        )
+
+        #for helm
+        PAYLOADHELM=$(cat <<EOF
+        {
+          "metadata": {
+            "name": "$aname"
+          },
+          "spec": {
+            "source": {
+              "repoURL": "$rurl",
+              "targetRevision": "$trev",
+              "chart": "$spath"
+            },
+            "destination": {
+              "server": "https://kubernetes.default.svc",
+              "namespace": "$destns"
+            },
+            "project": "$pname",
+            "syncPolicy": {
+              "automated": {
+                "prune": true,
+                "selfHeal": true
+              }
+            }
+          }
+        }
+        EOF
+        )
+          if [[ $dtype == "git" ]]; then
+            PAYLOAD=$PAYLOADGIT
+          elif [[ $dtype == "helm" ]]; then
+            PAYLOAD=$PAYLOADHELM
+          else
+            echo "unknown type"
+          fi
+
+          SESSION_TOKEN=$(curl -s -L -k -d "{\"username\": \"$USERNAME\", \"password\": \"$PASSWORD\"}" -H "Content-Type: application/json" "$ARGOCD_SERVER/api/v1/session" | jq -r .token)
+
+          # Create the ArgoCD application
+          response=$(curl -s -o response.txt -w "%{response_code}" -k -L -X POST -H "Content-Type: application/json" --data "$PAYLOAD" "$ARGOCD_SERVER/api/v1/applications?upsert=true/" --cookie "argocd.token=$SESSION_TOKEN")
+          #cat response.txt |jq .metadata.managedFields[0].operation
+          cat response.txt
+          if [[ $response -eq 200 ]]; then
+            echo "complete"
+            
+          else
+            echo "Error: Unexpected HTTP status code $response."
+          fi
+
+        }
+        # aname=$1
+        # trev=$2
+        # rurl=$3
+        # pname=$4
+        # destns=$5
+        # spath=$6 # path for git, chart for helm
+
+
+        if [[ $dtype == "git" ]]; then
+          create_application "git" "$APP_NAME" "$TARGET_REVISION" "$REPO_URL" "$PROJECT_NAME" "$DEST_NAMESPACE" "$REPO_PATH"
+        elif [[ $dtype == "helm" ]]; then
+          create_application "helm" "$APP_NAME" "$TARGET_REVISION" "$REPO_URL" "$PROJECT_NAME" "$DEST_NAMESPACE-app" "$HELM_CHART"
+        else
+          echo "unknown type"
+        fi
 
         
