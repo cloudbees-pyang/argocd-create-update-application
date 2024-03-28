@@ -16,7 +16,6 @@
 | Yes
 | argocd server url
 
-
 | `user`
 | String
 | Yes
