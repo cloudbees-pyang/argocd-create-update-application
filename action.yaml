@@ -30,7 +30,7 @@ inputs:
     required: true
   repopath:
     description: path within the Git repository git only
-    required: path
+    required: true
   destnamespace:
     description: destination namespace
     required: true
