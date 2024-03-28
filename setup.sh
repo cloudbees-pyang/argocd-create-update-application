@@ -3,7 +3,7 @@ ARGOCD_SERVER="http://argocd.guru-rep.sa-demo.beescloud.com" # note we follow sy
 
 # Set ArgoCD username and password
 USERNAME="admin"
-PASSWORD="dqj6hkgNMe" # note, we dont need to use token
+PASSWORD="***" # note, we dont need to use token
 CREATE_PROJECT="false" # we can check if project exists first
 SOURCE_TYPE="git" # can be git or helm
 # Set the project name and description
