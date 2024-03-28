@@ -47,10 +47,7 @@ inputs:
     required: false
     default: "2"
   
-outputs:
-  status:
-    value: ${{ steps.run_build.outputs.BUILD_STATUS }}
-    description: build status
+
 runs:
   using: composite
   steps:
