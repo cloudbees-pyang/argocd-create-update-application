@@ -115,13 +115,7 @@ runs:
               "server": "https://kubernetes.default.svc",
               "namespace": "$destns"
             },
-            "project": "$pname",
-            "syncPolicy": {
-              "automated": {
-                "prune": true,
-                "selfHeal": true
-              }
-            }
+            "project": "$pname"
           }
         }
         EOF
@@ -143,13 +137,7 @@ runs:
               "server": "https://kubernetes.default.svc",
               "namespace": "$destns"
             },
-            "project": "$pname",
-            "syncPolicy": {
-              "automated": {
-                "prune": true,
-                "selfHeal": true
-              }
-            }
+            "project": "$pname"
           }
         }
         EOF
