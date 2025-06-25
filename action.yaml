@@ -155,7 +155,7 @@ runs:
           SESSION_TOKEN=$(curl -s -L -k -d "{\"username\": \"$USERNAME\", \"password\": \"$PASSWORD\"}" -H "Content-Type: application/json" "$ARGOCD_SERVER/api/v1/session" | jq -r .token)
 
           # Create the ArgoCD application
-          response=$(curl -s -o response.txt -w "%{response_code}" -k -L -X POST -H "Content-Type: application/json" --data "$PAYLOAD" "$ARGOCD_SERVER/api/v1/applications?upsert=true/" --cookie "argocd.token=$SESSION_TOKEN")
+          response=$(curl -s -o response.txt -w "%{response_code}" -k -L -X POST -H "Content-Type: application/json" --data "$PAYLOAD" "$ARGOCD_SERVER/api/v1/applications?upsert=true" --cookie "argocd.token=$SESSION_TOKEN")
           #cat response.txt |jq .metadata.managedFields[0].operation
           cat response.txt
           if [[ $response -eq 200 ]]; then
