@@ -150,6 +150,8 @@ runs:
             echo "unknown type"
           fi
 
+          echo "payload: $PAYLOAD"
+
           SESSION_TOKEN=$(curl -s -L -k -d "{\"username\": \"$USERNAME\", \"password\": \"$PASSWORD\"}" -H "Content-Type: application/json" "$ARGOCD_SERVER/api/v1/session" | jq -r .token)
 
           # Create the ArgoCD application
