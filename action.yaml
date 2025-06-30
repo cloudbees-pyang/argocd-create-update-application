@@ -116,6 +116,12 @@ runs:
               "namespace": "$destns"
             },
             "project": "$pname"
+            "syncPolicy": {
+              "automated": {
+                "prune": true,
+                "selfHeal": true
+              }
+            }
           }
         }
         EOF
@@ -138,6 +144,12 @@ runs:
               "namespace": "$destns"
             },
             "project": "$pname"
+            "syncPolicy": {
+              "automated": {
+                "prune": true,
+                "selfHeal": true
+              }
+            }
           }
         }
         EOF
