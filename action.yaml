@@ -115,7 +115,7 @@ runs:
               "server": "https://kubernetes.default.svc",
               "namespace": "$destns"
             },
-            "project": "$pname"
+            "project": "$pname",
             "syncPolicy": {
               "automated": {
                 "prune": true,
@@ -143,7 +143,7 @@ runs:
               "server": "https://kubernetes.default.svc",
               "namespace": "$destns"
             },
-            "project": "$pname"
+            "project": "$pname",
             "syncPolicy": {
               "automated": {
                 "prune": true,
